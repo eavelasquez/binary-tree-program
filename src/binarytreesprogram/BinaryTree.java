@@ -12,7 +12,6 @@ package binarytreesprogram;
 public class BinaryTree {
 
     private Node root; // Root of Binary Tree
-    Node temp = root; // Temp Root of Binary Tree
 
     /**
      *
@@ -33,7 +32,7 @@ public class BinaryTree {
      *
      * @return
      */
-    public Node getRoot() {
+    Node getRoot() {
         return root;
     }
 
@@ -41,8 +40,18 @@ public class BinaryTree {
      *
      * @param root
      */
-    public void setRoot(Node root) {
+    void setRoot(Node root) {
         this.root = root;
+    }
+
+    /**
+     * This method is used to check is empty a node.
+     *
+     * @param node
+     * @return {@code true} if this node is empty; {@code true} otherwise;
+     */
+    boolean isEmpty(Node node) {
+        return node == null;
     }
 
     /**
@@ -50,14 +59,21 @@ public class BinaryTree {
      *
      * @param temp
      */
-    public void traversePreOrder(Node node) {
-        if (node == null) {
+    private void traversePreOrder(Node node) {
+        if (isEmpty(node)) {
             return;
         }
 
-        System.out.println(node.getKey() + " ");
+        System.out.print(node.getKey() + " ");
         traversePreOrder(node.getLeft());
         traversePreOrder(node.getRight());
+    }
+
+    void traversePreOrder() {
+        if (isEmpty(root)) {
+            System.out.println("The binary tree is empty.");
+        }
+        traversePreOrder(root);
     }
 
     /**
@@ -65,14 +81,21 @@ public class BinaryTree {
      *
      * @param node
      */
-    void traverseInOrder(Node node) {
-        if (node == null) {
+    private void traverseInOrder(Node node) {
+        if (isEmpty(node)) {
             return;
         }
 
         traverseInOrder(node.getLeft());
-        System.out.println(node.getKey() + " ");
+        System.out.print(node.getKey() + " ");
         traverseInOrder(node.getRight());
+    }
+
+    void traverseInOrder() {
+        if (isEmpty(root)) {
+            System.out.println("The binary tree is empty.");
+        }
+        traverseInOrder(root);
     }
 
     /**
@@ -80,14 +103,21 @@ public class BinaryTree {
      *
      * @param node
      */
-    void traversePostOrder(Node node) {
-        if (node == null) {
+    private void traversePostOrder(Node node) {
+        if (isEmpty(node)) {
             return;
         }
 
         traversePostOrder(node.getLeft());
         traversePostOrder(node.getRight());
-        System.out.println(node.getKey() + " ");
+        System.out.print(node.getKey() + " ");
+    }
+
+    void traversePostOrder() {
+        if (isEmpty(root)) {
+            System.out.println("The binary tree is empty.");
+        }
+        traversePostOrder(root);
     }
 
     /**
@@ -97,8 +127,8 @@ public class BinaryTree {
      * @param root
      * @return
      */
-    public int height(Node root) {
-        if (root == null) {
+    int height(Node root) {
+        if (isEmpty(root)) {
             return 0;
         } else {
             // compute height of each subtree
@@ -110,11 +140,16 @@ public class BinaryTree {
         }
     }
 
+    /**
+     * This method is used to find node for given key.
+     *
+     * @param key
+     */
     void search(int key) {
         Node temp = this.root;
         boolean isExists = false;
 
-        while (temp != null && isExists == false) {
+        while (!isEmpty(temp) && isExists == false) {
             if (key > temp.getKey()) {
                 temp = temp.getRight();
             } else if (key < temp.getKey()) {
@@ -124,10 +159,10 @@ public class BinaryTree {
             }
         }
 
-        if (isExists) {
-            System.out.println("The key was found: " + temp.getKey());
+        if (isExists && !isEmpty(temp)) {
+            System.out.print("The key was found: " + temp.getKey());
         } else {
-            System.out.println("The key was not found in the binary tree.");
+            System.out.print("The key was not found in the binary tree.");
         }
     }
 
@@ -140,18 +175,22 @@ public class BinaryTree {
      * @param level
      * @return
      */
-    void searchLevel(Node temp, int key, int level) {
-        // return null if tree is empty
-        if (temp == null) {
+    void searchLevel(Node node, int key, int level) {
+        // return if tree is empty
+        if (isEmpty(node)) {
             return;
         }
 
-        if (temp.getKey() == key) {
-            System.out.println("The key " + key + "is at level " + level);
+        if (node.getKey() == key) {
+            System.out.print("The key " + key + " is at level " + level + ".");
         } else {
-            searchLevel(temp.getLeft(), key, level + 1);
-            searchLevel(temp.getRight(), key, level + 1);
+            searchLevel(node.getLeft(), key, level + 1);
+            searchLevel(node.getRight(), key, level + 1);
         }
+    }
+
+    void searchLevel(int key, int level) {
+        searchLevel(root, key, level);
     }
 
     /**
@@ -163,7 +202,7 @@ public class BinaryTree {
         Node temp = this.root, previous = null;
         boolean isExists = false;
 
-        while (temp != null && isExists == false) {
+        while (!isEmpty(temp) && isExists == false) {
             previous = temp;
 
             if (key > temp.getKey()) {
@@ -180,7 +219,7 @@ public class BinaryTree {
         } else {
             Node newNode = new Node(key);
 
-            if (this.root == null) {
+            if (isEmpty(root)) {
                 this.root = newNode;
             } else if (key < previous.getKey()) {
                 previous.setLeft(newNode);
@@ -191,15 +230,90 @@ public class BinaryTree {
     }
 
     /**
+     * 
+     * @param root
+     * @return
+     */
+    int minKey(Node root) {
+        int minKey = root.getKey();
+
+        while (!isEmpty(root.getLeft())) {
+            minKey = root.getLeft().getKey();
+            root = root.getLeft();
+        }
+
+        return minKey;
+    }
+
+    /**
+     * 
+     * @param root
+     * @return
+     */
+    int maxKey(Node root) {
+        int maxKey = root.getKey();
+
+        while (!isEmpty(root.getRight())) {
+            maxKey = root.getRight().getKey();
+            root = root.getRight();
+        }
+
+        return maxKey;
+    }
+
+    /**
      * This method delete given element in binary tree.
      *
      * @param root
      * @param key
      */
-    public void delete(Node root, int key) {
-        if (root == null) {
+    Node delete(Node root, int key) {
+        // return root if tree is empty
+        if (isEmpty(root)) {
+            return root;
         }
 
+        // recursive calls for ancestors of node to be deleted
+        if (root.getKey() > key) {
+            root.setLeft(delete(root.getLeft(), key));
+            return root;
+        } else if (root.getKey() < key) {
+            root.setRight(delete(root.getRight(), key));
+            return root;
+        }
+
+        // we reach here when root is the node to be deleted
+        if (isEmpty(root.getLeft())) { // if left child is empty
+            return root.getRight();
+        } else if (isEmpty(root.getRight())) { // if right child is empty
+            return root.getLeft();
+        } else { // if both children exist
+            Node successorParent = root;
+
+            // find successor
+            Node successor = root.getRight();
+
+            while (!isEmpty(successor.getLeft())) {
+                successorParent = successor;
+                successor = successor.getLeft();
+            }
+
+            // delete successor.
+            if (successorParent != root) {
+                successorParent.setLeft(successor.getRight());
+            } else {
+                successorParent.setRight(successor.getLeft());
+            }
+
+            // copy successor data to root
+            root.setKey(successor.getKey());
+
+            return root;
+        }
+    }
+
+    Node delete(int key) {
+        return delete(root, key);
     }
 
     /**
@@ -208,8 +322,8 @@ public class BinaryTree {
      * @param node
      * @return
      */
-    static int sum(Node node) {
-        if (node == null) {
+    int sum(Node node) {
+        if (isEmpty(node)) {
             return 0;
         }
 
@@ -223,12 +337,12 @@ public class BinaryTree {
      * @return
      */
     int countLeafNodes(Node node) {
-        if (node == null) {
+        if (isEmpty(node)) {
             return 0;
         }
 
         // if left and right of the node is null it is leaf node
-        if (node.getLeft() == null && node.getRight() == null) {
+        if (isEmpty(node.getLeft()) && isEmpty(node.getRight())) {
             return 1;
         } else {
             return countLeafNodes(node.getLeft()) + countLeafNodes(node.getRight());
@@ -242,61 +356,77 @@ public class BinaryTree {
      * @return
      */
     boolean isFullBinaryTree(Node node) {
-        if (node == null) {
+        if (isEmpty(node)) {
             return true;
         }
 
         // Checking the children
-        if (node.getLeft() == null && node.getRight() == null) {
+        if (isEmpty(node.getLeft()) && isEmpty(node.getRight())) {
             return true;
         }
 
-        if (node.getLeft() != null && node.getRight() != null) {
+        if (!isEmpty(node.getLeft()) && !isEmpty(node.getRight())) {
             return (isFullBinaryTree(node.getLeft()) && isFullBinaryTree(node.getRight()));
         }
 
         return false;
     }
 
+    /**
+     * 
+     * @param node
+     * @param d
+     * @param level
+     * @return
+     */
     boolean isPerfectBinaryTree(Node node, int d, int level) {
-        if (node == null) {
+        if (isEmpty(node)) {
             return true;
         }
 
-        if (node.getLeft() == null && node.getRight() == null) {
+        if (isEmpty(node.getLeft()) && isEmpty(node.getRight())) {
             return (d == level + 1);
         }
 
-        if (node.getLeft() == null || node.getRight() == null) {
+        if (isEmpty(node.getLeft()) || isEmpty(node.getRight())) {
             return false;
         }
 
-        return (isPerfectBinaryTree(node.getLeft(), d, level + 1) && isPerfectBinaryTree(node.getRight(), d, level + 1));
+        return (isPerfectBinaryTree(node.getLeft(), d, level + 1)
+                && isPerfectBinaryTree(node.getRight(), d, level + 1));
     }
 
     /**
      * This method is a wrapper function of isPerfectBinaryTree
      *
      * @param node
-     * @return 
+     * @return
      */
     boolean isPerfectBinaryTree(Node node) {
         int d = depth(node);
 
         return isPerfectBinaryTree(node, d, 0);
     }
-    
+
+    /**
+     * This method is used
+     *
+     * @param node
+     * @param index
+     * @param numberNodes
+     * @return
+     */
     boolean isCompleteBinaryTree(Node node, int index, int numberNodes) {
-        if (node == null) {
+        if (isEmpty(node)) {
             return true;
         }
-        
+
         return (isCompleteBinaryTree(node.getLeft(), 2 * index + 1, numberNodes)
                 && isCompleteBinaryTree(node.getRight(), 2 * index + 2, numberNodes));
     }
 
     /**
-     * This method calculate the depth
+     * This method calculate the depth.
      *
      * @param node
      * @return
@@ -304,7 +434,7 @@ public class BinaryTree {
     int depth(Node node) {
         int d = 0;
 
-        while (node != null) {
+        while (!isEmpty(node)) {
             d += 1;
             node = node.getLeft();
         }
@@ -319,8 +449,8 @@ public class BinaryTree {
  */
 class Node {
 
-    private int key;
-    private Node left, right;
+    private int key; // key
+    private Node left, right; // left and right subtrees
 
     /**
      *
