@@ -299,6 +299,8 @@ public class BinaryTree {
             }
 
             // delete successor.
+            // if there isn't successor, then successor parent right will
+            // be the right successor.
             if (successorParent != root) {
                 successorParent.setLeft(successor.getRight());
             } else {

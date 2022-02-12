@@ -59,12 +59,12 @@ public class BinaryTreesProgram {
 
             switch (option) {
                 case 1 -> {
-                    System.out.println("\nInorder traversal of the given tree");
-                    tree.traverseInOrder();
-                }
-                case 2 -> {
                     System.out.println("\nPreorder traversal of the given tree");
                     tree.traversePreOrder();
+                }
+                case 2 -> {
+                    System.out.println("\nInorder traversal of the given tree");
+                    tree.traverseInOrder();
                 }
                 case 3 -> {
                     System.out.println("\nPostorder traversal of the given tree");
