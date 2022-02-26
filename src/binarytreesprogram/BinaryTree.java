@@ -331,6 +331,66 @@ public class BinaryTree {
     }
 
     /**
+     * This method is used to print all leaf nodes of a binary tree
+     *
+     * @param node root of tree
+     * @param key parent node key
+     */
+    void printLeaves(Node node, int key) {
+        // If node is null, return
+        if (node == null) {
+            return;
+        }
+
+        if (node.getLeft() == null && node.getRight() == null) {
+            System.out.print(key + " ");
+        }
+
+        printLeaves(node.getLeft(), node.getKey());
+        printLeaves(node.getRight(), node.getKey());
+    }
+
+    /**
+     * This method is used to print the children of a given key.
+     *
+     * @param key key of node.
+     */
+    void showChildren(int key) {
+        Node temp = this.root; // start from root.
+        boolean isExists = false; // flag to indicate if key is found.
+
+        // search for key
+        while (!isEmpty(temp) && isExists == false) {
+            if (key > temp.getKey()) {
+                temp = temp.getRight();
+            } else if (key < temp.getKey()) {
+                temp = temp.getLeft();
+            } else {
+                isExists = true;
+            }
+        }
+
+        // if key is found; otherwise, key is not found.
+        if (isExists && !isEmpty(temp)) {
+            // print left child.
+            if (!isEmpty(temp.getLeft())) {
+                System.out.println("Left child of " + key + " is " + temp.getLeft().getKey() + ".");
+            } else {
+                System.out.println("Left child of " + key + " is null.");
+            }
+
+            // print right child.
+            if (!isEmpty(temp.getRight())) {
+                System.out.println("Right child of " + key + " is " + temp.getRight().getKey() + ".");
+            } else {
+                System.out.println("Right child of " + key + " is null.");
+            }
+        } else {
+            System.out.println("The key was not found in the binary tree.");
+        }
+    }
+
+    /**
      * This method to count leaf nodes.
      *
      * @param node
