@@ -90,6 +90,10 @@ public class BinaryTreesProgram {
                     key = sc.nextInt();
                     tree.searchLevel(key, 1);
                 }
+                case 8 -> {
+                    System.out.println("\nShow children of the given key node");
+                    tree.showChildren(80);
+                }
                 default -> System.exit(0);
             }
         } while (option != 0);
