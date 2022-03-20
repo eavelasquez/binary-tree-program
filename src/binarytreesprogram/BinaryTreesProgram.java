@@ -47,7 +47,7 @@ public class BinaryTreesProgram {
 
         System.out.print("\n*** MENÚ PRINCIPAL ***");
         do {
-            String[] options = { "\n1. Mostrar Árbol Binario - pre-order", "2. Mostrar Árbol Binario - in-order",
+            String[] options = { "\n1. Mostrar Árbol Binario - in-order", "2. Mostrar Árbol Binario - pre-order",
                     "3. Mostrar Árbol Binario - post-order", "4. Insertar un nuevo dato", "5. Eliminar un dato",
                     "6. Buscar un dato", "7. Mostrar nivel de un dato", "0. Salir" };
 
